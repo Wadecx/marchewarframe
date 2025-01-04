@@ -58,7 +58,7 @@ const Home = () => {
       return;
     }
 
-    const url = `https://api.warframe.market/v1/items/${urlName}/orders?include=item`;
+    const url = `https://api.warframe.market/v1/items//${urlName}/orders?include=item`;
 
     try {
       const response = await fetch(url);
