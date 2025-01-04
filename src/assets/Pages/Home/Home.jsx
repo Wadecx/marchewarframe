@@ -74,7 +74,7 @@ const Home = () => {
 
   // Filtrer les résultats en fonction des cases à cocher et du statut "online"
   const filteredOrders = orders.filter((order) => {
-    if (order.user.status !== "online") return false;
+    if (order.user.status !== "online" && order.user.status !== "ingame") return false;
     if (isSellingChecked && order.order_type !== "sell") return false;
     if (isBuyingChecked && order.order_type !== "buy") return false;
     return true;
@@ -160,7 +160,7 @@ const Home = () => {
 
       {/* Affichage de l'aperçu de l'item sélectionné */}
       <div className="item_preview">
-        {itemPreview && (
+        {itemPreview && ( <>
           <div className="preview-content">
             <img
               src={itemPreview.thumb}
@@ -169,32 +169,36 @@ const Home = () => {
             />
             <h2>{itemPreview.name}</h2>
           </div>
-        )}
-      </div>
 
-      <div>
-        {filteredOrders.length > 0 ? (
-          <>
-            <div className="average">
-              <h2>
-                Moyenne du prix : {averagePlatinum.toFixed(2)}
+          <div className="average">
+            <h3>Statistics</h3>
+              <h5>
+                Average Price : {averagePlatinum.toFixed(2)}
                 <img
                   src="/img/pl.webp"
                   alt="Image de votre choix"
                   className="votre-classe-image"
                 />
-              </h2>
-              <h2>
-                {isSellingChecked ? "Prix le plus bas" : "Prix le plus élevé"} :{" "}
+              </h5>
+              <h5>
+                {isSellingChecked ? "Lowest Price" : "Highest Price"} :{" "}
                 {priceToDisplay}
                 <img
                   src="/img/pl.webp"
                   alt="Image de votre choix"
                   className="votre-classe-image"
                 />
-              </h2>
+              </h5>
             </div>
+        </>
+                 
+        ) }
+      </div>
 
+      <div>
+        {filteredOrders.length > 0 ? (
+          <>
+          
             <div className="details">
               <h3>User</h3>
               <h3>Status</h3>
@@ -265,6 +269,7 @@ const Home = () => {
                 <p>
                   {order.quantity} <AiOutlineProduct />
                 </p>
+                {order.mod_rank && <p>Rank : {order.mod_rank}</p>}
 
                 {/* Bouton avec texte conditionnel */}
                 <button
