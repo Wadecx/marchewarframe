@@ -1,182 +1,178 @@
 /* home.css */
 
-/* Base reset */
-
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-* {
+body {
+  background-color: #0b0f11;
+  color: #ffffff;
+  font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-  background: #101619; /* Arrière-plan sombre */
-  color: #e5e5e5; /* Texte clair */
-  font-size: 16px;
-  line-height: 1.6;
-  padding: 20px;
-   font-family: "Lato", serif;
-  font-weight: 100;
-  font-style: normal;
-}
-
-.home {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6); /* Ombre douce */
-}
-
-/* Titre */
-h1 {
-  font-size: 2.5rem;
-  color: #00b8f4; /* Bleu néon pour l'introduction */
-  text-align: center;
-  margin-bottom: 20px;
-  font-family: "Arial", sans-serif;
-}
-
-/* Formulaire */
-form {
+.home-container {
   display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  max-width: 1500px;
+  margin: 20px auto;
+  padding: 20px;
 }
 
-input[type="text"] {
-  width: 300px;
-  padding: 10px;
-  margin-right: 10px;
-  border: 2px solid #00b8f4;
-  border-radius: 5px;
-  background-color: #2a2a2a;
-  color: #e5e5e5;
-  font-size: 1rem;
-}
-
-input[type="submit"] {
-  padding: 10px 20px;
-  background-color: #00b8f4;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-input[type="submit"]:hover {
-  background-color: #008cb2; /* Changer la couleur au survol */
-}
-
-/* Cases à cocher */
-div label {
-  color: #e5e5e5;
+/* Section de recherche et statistiques */
+.search-section {
+  flex: 1;
   margin-right: 20px;
-  font-size: 1.1rem;
-}
-
-input[type="checkbox"] {
-  accent-color: #00b8f4; /* Couleur accent pour les cases à cocher */
-}
-
-/* Résultats affichés */
-.results {
-  margin-top: 20px;
-}
-
-.results p {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-}
-
-.results .order {
-  background: #2a2a2a;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-}
-
-.results .order p {
-  margin: 5px 0;
-}
-
-hr {
-  border: 1px solid #444;
-  margin: 15px 0;
-}
-
-/* Affichage des prix */
-.price-info {
-  font-size: 1.3rem;
-  color: #00b8f4;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.price-info span {
-  font-size: 1.5rem;
-  color: #fff;
-}
-
-/* Ajout d'une animation douce pour les données affichées */
-.results .order {
-  opacity: 0;
-  animation: fadeIn 0.5s forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@media (max-width: 768px) {
-  .home {
-    padding: 15px;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    margin-right: 0;
-  }
-
-  input[type="submit"] {
-    width: 100%;
-    margin-top: 10px;
-  }
 }
 
 .form_style {
   display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form_style input[type="text"] {
+  background-color: #101619;
+  border: 1px solid #2c3539;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.checkbox{
+  display: flex;
+  gap: 50px;
+}
+
+/* Style de la case à cocher */
+.checkbox input[type="checkbox"] {
+  -webkit-appearance: none;  /* Désactive le style natif sur les navigateurs Webkit */
+  -moz-appearance: none;     /* Désactive le style natif sur Firefox */
+  appearance: none;          /* Désactive le style natif */
+  width: 25px;
+  height: 25px;
+  border: 2px solid #bbb;    /* Bordure grise par défaut */
+  border-radius: 5px;        /* Coins arrondis */
+  position: relative;
+  background-color: transparent; /* Fond transparent */
+  cursor: pointer;
+  transition: all 0.3s ease;  /* Transition fluide */
+  vertical-align: middle;     /* Aligne verticalement la checkbox */
+}
+
+/* Lorsque la case est cochée, fond vert et bordure verte */
+.checkbox input[type="checkbox"]:checked {
+  background-color: #00ff99;  /* Fond vert clair */
+  border-color: #00ff99;      /* Bordure verte */
+}
+
+/* Affichage d'une coche ✅ à l'intérieur de la case lorsque cochée */
+.checkbox input[type="checkbox"]:checked::after {
+  content: '✔';               /* Symbole de coche */
+  position: absolute;
+  top: 0;                      /* Centrer la coche */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: white;                /* Couleur de la coche en blanc */
+}
+
+/* Effet de survol */
+.checkbox input[type="checkbox"]:hover {
+  border-color: #00ff99;      /* Bordure verte lors du survol */
+}
+
+/* Texte à côté de la case */
+.checkbox label {
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  margin-left: 10px;
+  display: inline-flex;        /* Utiliser inline-flex pour aligner le texte avec la case */
+  align-items: center;        /* Centrer le texte verticalement avec la checkbox */
+}
+
+
+
+
+.suggestions-list {
+  background-color: #101619;
+  border: 1px solid #2c3539;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.suggestion-item {
+  padding: 5px 10px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.suggestion-item:hover {
+  background-color: #171e21;
+}
+
+/* Statistiques */
+.item_preview {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.preview-content {
+  display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.preview-content img {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
 }
 
 .average {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: center;
-  text-align: left;
-  margin-right: 10px;
+  margin-top: 10px;
+  background-color: #101619;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid #2c3539;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-.average h5 {
+.average h3 {
+  font-size: 20px;
+  color: cyan;
+  font-weight: 200;
+  margin: 0;
+  margin-top: 10px;
+  margin-bottom: 45px;
+}
+
+.average p {
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 5px;
+  font-size: 16px;
+  color: #7ca3af;
 }
 
-.average img {
+.votre-classe-image {
   width: 20px;
   height: 20px;
+}
+
+/* Section des résultats */
+.results-section {
+  flex: 2;
+  background-color: #101619;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #2c3539;
 }
 
 .player_data {
@@ -192,105 +188,45 @@ hr {
   grid-template: "profile status reputation price quantity rank buttons" 50px / 25% 1fr 1fr 1fr 1fr 125px;
 }
 
-.player_data img {
-  width: 30px;
-  height: 30px;
-  border-radius: 100px;
-}
-
-.player_data a {
-  display: flex;
-  align-items: center;
-}
-
-.player_data .plat_img {
-  width: 20px;
-  height: 20px;
-}
-
-.player_data a {
-  display: flex;
-  text-align: center;
-  gap: 10px;
-  text-decoration: none;
-  color: white;
-}
-
-.player_data p {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.details {
-  position: relative;
-  padding: 0 15px;
-  background: var(--color_background);
-  display: grid;
-  grid-column-gap: 10px;
-  -webkit-column-gap: 10px;
-  -moz-column-gap: 10px;
-  column-gap: 10px;
-  align-items: center;
-  grid-template: "profile status reputation price quantity rank buttons" 50px / 25% 1fr 1fr 1fr 350px;
-  border-bottom: 1px solid White;
-  margin-bottom: 3vh;
-}
-
-.action-btn {
-  padding: 10px;
-  color: #3c879c;
-  cursor: pointer;
-  background-color: transparent;
-  border: 1px solid #3c879c;
-}
-
-.suggestions-list {
-  position: absolute;
-  background-color: #101619;
-  border: 1px solid #ccc;
-  overflow-y: auto;
-  width: 30%;
-  text-align: center;
-  z-index: 1;
-  left: 50%; /* Positionne l'élément à 50% de la largeur du parent */
-  transform: translateX(
-    -50%
-  ); /* Décale l'élément vers la gauche de 50% de sa propre largeur pour le centrer */
-  top: 10%; /* Positionne la liste sous l'input */
-}
-
-.suggestion-item {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.suggestion-item:hover {
+.player_data:nth-child(even) {
   background-color: #171e21;
 }
 
-.preview-content {
+.player_data a {
+  color: #ffffff;
+  text-decoration: none;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 50px;
-  margin-left: 10px;
+  gap: 10px;
 }
 
-.preview-content img {
+.player-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.action-btn {
+  padding: 5px 10px;
+  background-color: #6c56a1;
+  border: none;
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  justify-self: center;
+}
+
+.action-btn:hover {
+  background-color: #875cbf;
+}
+
+.message input[type="text"] {
+  width: 100%;
+  background-color: #101619;
+  border: 1px solid #2c3539;
+  color: #ffffff;
   padding: 10px;
-  border: 1px solid cyan;
-  border-radius: 100%;
-  box-shadow: 0 0 3px cyan, 0 0 10px cyan, 0 0 10px cyan;
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.item_preview {
-  display: flex;
-  gap: 20px;
-  background-color: #0d0e0e;
-  padding: 20px 5px;
-  justify-content: space-between;
-  margin-bottom: 5vh;
+  margin-top: 5px;
+  border-radius: 5px;
+  outline: none;
 }

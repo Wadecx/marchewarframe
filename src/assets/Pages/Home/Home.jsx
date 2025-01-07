@@ -15,50 +15,43 @@ const Home = () => {
   const [showSuggestions, setShowSuggestions] = useState(false); // Pour afficher/masquer les suggestions
   const [itemPreview, setItemPreview] = useState(null); // Etat pour l'aperçu de l'item sélectionné
 
-  // Fonction pour gérer la recherche d'un item par item_name et mettre à jour l'url_name
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
     setItem(searchTerm);
 
-    // Si la recherche est vide, masquer les suggestions
     if (searchTerm === "") {
       setFilteredItems([]);
       setShowSuggestions(false);
     } else {
-      // Filtrer les éléments qui commencent par le texte de recherche
       const filtered = itemsData.payload.items.filter((item) =>
         item.item_name.toLowerCase().startsWith(searchTerm.toLowerCase())
       );
-      // Limiter à 6 résultats maximum
       const limitedResults = filtered.slice(0, 6);
       setFilteredItems(limitedResults);
       setShowSuggestions(limitedResults.length > 0);
     }
   };
 
-  // Lorsque l'on clique sur une suggestion, on met à jour le champ et lance la recherche
   const handleItemClick = (itemName, urlName, thumb) => {
     setItem(itemName);
-    setUrlName(urlName); // Mise à jour du urlName
-    setFilteredItems([]); // Masquer les suggestions après sélection
-    setShowSuggestions(false); // Masquer les suggestions
+    setUrlName(urlName);
+    setFilteredItems([]);
+    setShowSuggestions(false);
     setItemPreview({
       name: itemName,
       thumb: `https://warframe.market/static/assets/${thumb}`,
     });
 
-    // Appeler directement handleSubmit pour lancer la recherche
     handleSubmit(urlName);
   };
 
   const handleSubmit = async (urlName) => {
-    // Vérifier que urlName est bien défini
     if (!urlName) {
       alert("Veuillez entrer un nom d'élément valide.");
       return;
     }
 
-    const url = `https://api.warframe.market/v1/items/${urlName}/orders?include=item`;
+    const url = `api/v1/items/${urlName}/orders?include=item`;
 
     try {
       const response = await fetch(url);
@@ -66,13 +59,12 @@ const Home = () => {
         throw new Error(`Erreur: ${response.statusText}`);
       }
       const data = await response.json();
-      setOrders(data.payload.orders); // Stocker la liste des commandes
+      setOrders(data.payload.orders);
     } catch (err) {
       console.error(err.message);
     }
   };
 
-  // Filtrer les résultats en fonction des cases à cocher et du statut "online"
   const filteredOrders = orders.filter((order) => {
     if (order.user.status !== "online" && order.user.status !== "ingame") return false;
     if (isSellingChecked && order.order_type !== "sell") return false;
@@ -80,19 +72,15 @@ const Home = () => {
     return true;
   });
 
-  // Trier les ordres par prix (platinum) selon la case "Vendre"
   const sortedOrders = filteredOrders.sort((a, b) => {
     if (isSellingChecked) {
-      return a.platinum - b.platinum; // Prix le plus bas en premier si "Vendre" est coché
+      return a.platinum - b.platinum;
     } else {
-      return b.platinum - a.platinum; // Prix le plus élevé en premier si "Vendre" est décoché
+      return b.platinum - a.platinum;
     }
   });
 
-  // Récupérer le prix le plus bas ou le plus élevé en fonction de la case "Vendre"
   const priceToDisplay = sortedOrders.length > 0 ? sortedOrders[0].platinum : 0;
-
-  // Calcul de la moyenne du prix en platinum
   const totalPlatinum = filteredOrders.reduce(
     (sum, order) => sum + order.platinum,
     0
@@ -100,119 +88,109 @@ const Home = () => {
   const averagePlatinum =
     filteredOrders.length > 0 ? totalPlatinum / filteredOrders.length : 0;
 
-  // Créer un état pour gérer le message pour chaque joueur
   const [showMessage, setShowMessage] = useState({});
 
   const handleButtonClick = (index) => {
     setShowMessage((prevState) => ({
       ...prevState,
-      [index]: !prevState[index], // Inverse l'état du message pour ce joueur spécifique
+      [index]: !prevState[index],
     }));
   };
 
   return (
-    <div className="home">
-      <form className="form_style">
-        <input
-          type="text"
-          name="Nom"
-          placeholder="Nom"
-          value={item} // Lier la barre de recherche à l'état item
-          onChange={handleSearch} // Appeler handleSearch lors de la saisie
-          autocomplete="off"
-        />
-        {/* Le bouton de soumission est maintenant inutile car handleSubmit est appelé directement */}
-        <label>
+    <div className="home-container">
+      <div className="search-section">
+        <form className="form_style">
           <input
-            type="checkbox"
-            checked={isSellingChecked}
-            onChange={() => setIsSellingChecked(!isSellingChecked)}
+            type="text"
+            name="Nom"
+            placeholder="Nom"
+            value={item}
+            onChange={handleSearch}
+            autoComplete="off"
           />
-          Vendre
-        </label>
 
-        <label>
-          <input
-            type="checkbox"
-            checked={isBuyingChecked}
-            onChange={() => setIsBuyingChecked(!isBuyingChecked)}
-          />
-          Acheter
-        </label>
-      </form>
-
-      {/* Affichage des suggestions de recherche */}
-      {showSuggestions && (
-        <div className="suggestions-list">
-          {filteredItems.map((item) => (
-            <div
-              key={item.id}
-              className="suggestion-item"
-              onClick={() =>
-                handleItemClick(item.item_name, item.url_name, item.thumb)
-              }
-            >
-              {item.item_name}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Affichage de l'aperçu de l'item sélectionné */}
-      <div className="item_preview">
-        {itemPreview && ( <>
-          <div className="preview-content">
-            <img
-              src={itemPreview.thumb}
-              alt={itemPreview.name}
-              className="item-thumb"
+            <div className="checkbox">
+            <label>
+            <input
+              type="checkbox"
+              checked={isSellingChecked}
+              onChange={() => setIsSellingChecked(!isSellingChecked)}
             />
-            <h2>{itemPreview.name}</h2>
-          </div>
-
-          <div className="average">
-            <h3>Statistics</h3>
-              <h5>
-                Average Price : {averagePlatinum.toFixed(2)}
-                <img
-                  src="/img/pl.webp"
-                  alt="Image de votre choix"
-                  className="votre-classe-image"
-                />
-              </h5>
-              <h5>
-                {isSellingChecked ? "Lowest Price" : "Highest Price"} :{" "}
-                {priceToDisplay}
-                <img
-                  src="/img/pl.webp"
-                  alt="Image de votre choix"
-                  className="votre-classe-image"
-                />
-              </h5>
+            Vendre
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={isBuyingChecked}
+              onChange={() => setIsBuyingChecked(!isBuyingChecked)}
+            />
+            Acheter
+          </label>
             </div>
-        </>
-                 
-        ) }
+          
+        </form>
+
+        {showSuggestions && (
+          <div className="suggestions-list">
+            {filteredItems.map((item) => (
+              <div
+                key={item.id}
+                className="suggestion-item"
+                onClick={() =>
+                  handleItemClick(item.item_name, item.url_name, item.thumb)
+                }
+              >
+                {item.item_name}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="item_preview">
+          {itemPreview && (
+            <>
+              <div className="preview-content">
+                <img
+                  src={itemPreview.thumb}
+                  alt={itemPreview.name}
+                  className="item-thumb"
+                />
+                <h2>{itemPreview.name}</h2>
+              </div>
+              <div className="average">
+                <h3>Statistics</h3>
+                <p>
+                  Prix moyen: {averagePlatinum.toFixed(2)}
+                  <img
+                    src="/img/pl.webp"
+                    alt="Image de votre choix"
+                    className="votre-classe-image"
+                  />
+                </p>
+                <p>
+                  {isSellingChecked ? "Prix minimum" : "Prix maximum"} : {priceToDisplay}
+                  <img
+                    src="/img/pl.webp"
+                    alt="Image de votre choix"
+                    className="votre-classe-image"
+                  />
+                </p>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
-      <div>
+      <div className="results-section">
         {filteredOrders.length > 0 ? (
           <>
-          
-            <div className="details">
-              <h3>User</h3>
-              <h3>Status</h3>
-              <h3>Reputation</h3>
-              <h3>Platinum</h3>
-              <h3>Quantity</h3>
-            </div>
-
             {sortedOrders.map((order, index) => (
               <div
                 key={index}
                 className="player_data"
                 style={{
-                  backgroundColor: index % 2 === 0 ? "#171E21" : "#101619", // Alternance des couleurs
+                  backgroundColor: index % 2 === 0 ? "#171E21" : "#101619",
                 }}
               >
                 <a href="">
@@ -232,7 +210,6 @@ const Home = () => {
                   {order.user.ingame_name}
                 </a>
                 <p>
-                  {" "}
                   <span
                     style={{
                       color: "#6C56A1",
@@ -245,7 +222,7 @@ const Home = () => {
                 <p>
                   <span
                     style={{
-                      color: order.user.reputation > 10 ? "#039862" : "#fffff", // Si la réputation > 10, la couleur devient verte
+                      color: order.user.reputation > 10 ? "#039862" : "#fffff",
                       display: "flex",
                       alignItems: "center",
                       gap: "10px",
@@ -271,7 +248,6 @@ const Home = () => {
                 </p>
                 {order.mod_rank && <p>Rank : {order.mod_rank}</p>}
 
-                {/* Bouton avec texte conditionnel */}
                 <button
                   className="action-btn"
                   onClick={() => handleButtonClick(index)}
@@ -279,7 +255,6 @@ const Home = () => {
                   {isSellingChecked ? "Acheter" : "Vendre"}
                 </button>
 
-                {/* Affichage du message uniquement pour ce joueur */}
                 {showMessage[index] && (
                   <div className="message">
                     <input
@@ -297,7 +272,7 @@ const Home = () => {
             ))}
           </>
         ) : (
-          <img src="" />
+          <p>No orders found</p>
         )}
       </div>
     </div>
