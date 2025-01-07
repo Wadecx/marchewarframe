@@ -1,7 +1,7 @@
 /* home.css */
 
 body {
-  background-color: #0b0f11;
+  background-color: #1b252a;
   color: #ffffff;
   font-family: "Arial", sans-serif;
   margin: 0;
@@ -37,38 +37,38 @@ body {
   outline: none;
 }
 
-.checkbox{
+.checkbox {
   display: flex;
   gap: 50px;
 }
 
 /* Style de la case à cocher */
 .checkbox input[type="checkbox"] {
-  -webkit-appearance: none;  /* Désactive le style natif sur les navigateurs Webkit */
-  -moz-appearance: none;     /* Désactive le style natif sur Firefox */
-  appearance: none;          /* Désactive le style natif */
+  -webkit-appearance: none; /* Désactive le style natif sur les navigateurs Webkit */
+  -moz-appearance: none; /* Désactive le style natif sur Firefox */
+  appearance: none; /* Désactive le style natif */
   width: 25px;
   height: 25px;
-  border: 2px solid #bbb;    /* Bordure grise par défaut */
-  border-radius: 5px;        /* Coins arrondis */
+  border: 2px solid #bbb; /* Bordure grise par défaut */
+  border-radius: 5px; /* Coins arrondis */
   position: relative;
   background-color: transparent; /* Fond transparent */
   cursor: pointer;
-  transition: all 0.3s ease;  /* Transition fluide */
-  vertical-align: middle;     /* Aligne verticalement la checkbox */
+  transition: all 0.3s ease; /* Transition fluide */
+  vertical-align: middle; /* Aligne verticalement la checkbox */
 }
 
 /* Lorsque la case est cochée, fond vert et bordure verte */
 .checkbox input[type="checkbox"]:checked {
-  background-color: #00ff99;  /* Fond vert clair */
-  border-color: #00ff99;      /* Bordure verte */
+  background-color: #00ff99; /* Fond vert clair */
+  border-color: #00ff99; /* Bordure verte */
 }
 
 /* Affichage d'une coche ✅ à l'intérieur de la case lorsque cochée */
 .checkbox input[type="checkbox"]:checked::after {
-  content: '✔';               /* Symbole de coche */
+  content: "✔"; /* Symbole de coche */
   position: absolute;
-  top: 0;                      /* Centrer la coche */
+  top: 0; /* Centrer la coche */
   left: 0;
   width: 100%;
   height: 100%;
@@ -76,12 +76,12 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 16px;
-  color: white;                /* Couleur de la coche en blanc */
+  color: white; /* Couleur de la coche en blanc */
 }
 
 /* Effet de survol */
 .checkbox input[type="checkbox"]:hover {
-  border-color: #00ff99;      /* Bordure verte lors du survol */
+  border-color: #00ff99; /* Bordure verte lors du survol */
 }
 
 /* Texte à côté de la case */
@@ -91,12 +91,9 @@ body {
   cursor: pointer;
   user-select: none;
   margin-left: 10px;
-  display: inline-flex;        /* Utiliser inline-flex pour aligner le texte avec la case */
-  align-items: center;        /* Centrer le texte verticalement avec la checkbox */
+  display: inline-flex; /* Utiliser inline-flex pour aligner le texte avec la case */
+  align-items: center; /* Centrer le texte verticalement avec la checkbox */
 }
-
-
-
 
 .suggestions-list {
   background-color: #101619;

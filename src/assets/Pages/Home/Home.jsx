@@ -4,6 +4,7 @@ import { TfiServer } from "react-icons/tfi";
 import { AiOutlineProduct } from "react-icons/ai";
 import itemsData from "../../data/items.json";
 import "./home.css";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Home = () => {
   const [item, setItem] = useState(""); // L'élément recherché
@@ -66,7 +67,8 @@ const Home = () => {
   };
 
   const filteredOrders = orders.filter((order) => {
-    if (order.user.status !== "online" && order.user.status !== "ingame") return false;
+    if (order.user.status !== "online" && order.user.status !== "ingame")
+      return false;
     if (isSellingChecked && order.order_type !== "sell") return false;
     if (isBuyingChecked && order.order_type !== "buy") return false;
     return true;
@@ -98,184 +100,187 @@ const Home = () => {
   };
 
   return (
-    <div className="home-container">
-      <div className="search-section">
-        <form className="form_style">
-          <input
-            type="text"
-            name="Nom"
-            placeholder="Nom"
-            value={item}
-            onChange={handleSearch}
-            autoComplete="off"
-          />
+    <>
+      <div className="home-container">
+        <div className="search-section">
+          <form className="form_style">
+            <input
+              type="text"
+              name="Nom"
+              placeholder="Nom"
+              value={item}
+              onChange={handleSearch}
+              autoComplete="off"
+            />
 
             <div className="checkbox">
-            <label>
-            <input
-              type="checkbox"
-              checked={isSellingChecked}
-              onChange={() => setIsSellingChecked(!isSellingChecked)}
-            />
-            Vendre
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              checked={isBuyingChecked}
-              onChange={() => setIsBuyingChecked(!isBuyingChecked)}
-            />
-            Acheter
-          </label>
-            </div>
-          
-        </form>
-
-        {showSuggestions && (
-          <div className="suggestions-list">
-            {filteredItems.map((item) => (
-              <div
-                key={item.id}
-                className="suggestion-item"
-                onClick={() =>
-                  handleItemClick(item.item_name, item.url_name, item.thumb)
-                }
-              >
-                {item.item_name}
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div className="item_preview">
-          {itemPreview && (
-            <>
-              <div className="preview-content">
-                <img
-                  src={itemPreview.thumb}
-                  alt={itemPreview.name}
-                  className="item-thumb"
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isSellingChecked}
+                  onChange={() => setIsSellingChecked(!isSellingChecked)}
                 />
-                <h2>{itemPreview.name}</h2>
-              </div>
-              <div className="average">
-                <h3>Statistics</h3>
-                <p>
-                  Prix moyen: {averagePlatinum.toFixed(2)}
+                Vendre
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isBuyingChecked}
+                  onChange={() => setIsBuyingChecked(!isBuyingChecked)}
+                />
+                Acheter
+              </label>
+            </div>
+          </form>
+
+          {showSuggestions && (
+            <div className="suggestions-list">
+              {filteredItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="suggestion-item"
+                  onClick={() =>
+                    handleItemClick(item.item_name, item.url_name, item.thumb)
+                  }
+                >
+                  {item.item_name}
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="item_preview">
+            {itemPreview && (
+              <>
+                <div className="preview-content">
                   <img
-                    src="/img/pl.webp"
-                    alt="Image de votre choix"
-                    className="votre-classe-image"
+                    src={itemPreview.thumb}
+                    alt={itemPreview.name}
+                    className="item-thumb"
                   />
-                </p>
-                <p>
-                  {isSellingChecked ? "Prix minimum" : "Prix maximum"} : {priceToDisplay}
-                  <img
-                    src="/img/pl.webp"
-                    alt="Image de votre choix"
-                    className="votre-classe-image"
-                  />
-                </p>
-              </div>
+                  <h2>{itemPreview.name}</h2>
+                </div>
+                <div className="average">
+                  <h3>Statistique</h3>
+                  <p>
+                    Prix moyen: {averagePlatinum.toFixed(2)}
+                    <img
+                      src="/img/pl.webp"
+                      alt="Image de votre choix"
+                      className="votre-classe-image"
+                    />
+                  </p>
+                  <p>
+                    {isSellingChecked ? "Prix minimum" : "Prix maximum"} :{" "}
+                    {priceToDisplay}
+                    <img
+                      src="/img/pl.webp"
+                      alt="Image de votre choix"
+                      className="votre-classe-image"
+                    />
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="results-section">
+          {filteredOrders.length > 0 ? (
+            <>
+              {sortedOrders.map((order, index) => (
+                <div
+                  key={index}
+                  className="player_data"
+                  style={{
+                    backgroundColor: index % 2 === 0 ? "#171E21" : "#101619",
+                  }}
+                >
+                  <a href="">
+                    {order.user.avatar ? (
+                      <img
+                        src={`https://warframe.market/static/assets/${order.user.avatar}`}
+                        alt={`Avatar de ${order.user.ingame_name}`}
+                        className="player-avatar"
+                      />
+                    ) : (
+                      <img
+                        src={`https://warframe.market/static/assets/user/default-avatar.png`}
+                        alt="Avatar par défaut"
+                        className="player-avatar"
+                      />
+                    )}
+                    {order.user.ingame_name}
+                  </a>
+                  <p>
+                    <span
+                      style={{
+                        color: "#6C56A1",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {order.user.status}
+                    </span>
+                  </p>
+                  <p>
+                    <span
+                      style={{
+                        color:
+                          order.user.reputation > 10 ? "#039862" : "#fffff",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      {order.user.reputation} <HiOutlineEmojiHappy />
+                    </span>
+                  </p>
+                  <p>
+                    <span
+                      style={{
+                        color: "#b74590",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      {order.platinum} <TfiServer />
+                    </span>
+                  </p>
+                  <p>
+                    {order.quantity} <AiOutlineProduct />
+                  </p>
+                  {order.mod_rank && <p>Rank : {order.mod_rank}</p>}
+
+                  <button
+                    className="action-btn"
+                    onClick={() => handleButtonClick(index)}
+                  >
+                    {isSellingChecked ? "Acheter" : "Vendre"}
+                  </button>
+
+                  {showMessage[index] && (
+                    <div className="message">
+                      <input
+                        type="text"
+                        value={
+                          isSellingChecked
+                            ? `/w ${order.user.ingame_name} Hi, want to buy ${item} for ${order.platinum} Platinum (Warframe Market)`
+                            : `/w ${order.user.ingame_name} Hi, want to sell ${item} for ${order.platinum} Platinum (Warframe Market)`
+                        }
+                        readOnly
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
             </>
+          ) : (
+            <p>No orders found</p>
           )}
         </div>
       </div>
-
-      <div className="results-section">
-        {filteredOrders.length > 0 ? (
-          <>
-            {sortedOrders.map((order, index) => (
-              <div
-                key={index}
-                className="player_data"
-                style={{
-                  backgroundColor: index % 2 === 0 ? "#171E21" : "#101619",
-                }}
-              >
-                <a href="">
-                  {order.user.avatar ? (
-                    <img
-                      src={`https://warframe.market/static/assets/${order.user.avatar}`}
-                      alt={`Avatar de ${order.user.ingame_name}`}
-                      className="player-avatar"
-                    />
-                  ) : (
-                    <img
-                      src={`https://warframe.market/static/assets/user/default-avatar.png`}
-                      alt="Avatar par défaut"
-                      className="player-avatar"
-                    />
-                  )}
-                  {order.user.ingame_name}
-                </a>
-                <p>
-                  <span
-                    style={{
-                      color: "#6C56A1",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {order.user.status}
-                  </span>
-                </p>
-                <p>
-                  <span
-                    style={{
-                      color: order.user.reputation > 10 ? "#039862" : "#fffff",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    {order.user.reputation} <HiOutlineEmojiHappy />
-                  </span>
-                </p>
-                <p>
-                  <span
-                    style={{
-                      color: "#b74590",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    {order.platinum} <TfiServer />
-                  </span>
-                </p>
-                <p>
-                  {order.quantity} <AiOutlineProduct />
-                </p>
-                {order.mod_rank && <p>Rank : {order.mod_rank}</p>}
-
-                <button
-                  className="action-btn"
-                  onClick={() => handleButtonClick(index)}
-                >
-                  {isSellingChecked ? "Acheter" : "Vendre"}
-                </button>
-
-                {showMessage[index] && (
-                  <div className="message">
-                    <input
-                      type="text"
-                      value={
-                        isSellingChecked
-                          ? `/w ${order.user.ingame_name} Hi, want to buy ${item} for ${order.platinum} Platinum (Warframe Market)`
-                          : `/w ${order.user.ingame_name} Hi, want to sell ${item} for ${order.platinum} Platinum (Warframe Market)`
-                      }
-                      readOnly
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-          </>
-        ) : (
-          <p>No orders found</p>
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 

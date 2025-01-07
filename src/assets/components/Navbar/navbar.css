@@ -1,0 +1,32 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #171e20;
+  box-shadow: 0 0 10px -1px black;
+}
+
+.navbar .leftSide {
+  margin-left: 2%;
+  color: rgb(82, 129, 129);
+}
+
+.navbar .rightSide {
+  margin-right: 2%;
+  display: flex;
+  align-items: center;
+}
+
+.rightSide ul {
+  display: flex;
+  padding: 0;
+  gap: 50px;
+  list-style: none;
+}
+
+.rightSide a {
+  text-decoration: none;
+  color: rgb(82, 129, 129);
+  display: flex;
+  gap: 5px;
+  font-size: 20px;
+}
