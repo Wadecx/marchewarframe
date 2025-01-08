@@ -14,12 +14,12 @@ const Navbar = () => {
       <div className="rightSide">
         <ul>
           <li>
-            <Link to={"/market"}>
+            <Link to={"/"}>
               <FaShoppingCart /> Market
             </Link>
           </li>
           <li>
-            <Link to={"/rivens"}>Rivens</Link>
+            <Link to={"/riven"}>Rivens</Link>
           </li>
           <li>
             <Link to={"/login"}>

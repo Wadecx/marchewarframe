@@ -227,3 +227,16 @@ body {
   border-radius: 5px;
   outline: none;
 }
+.averaged{
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10%;
+  text-align: center;
+}
+
+.price{
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10%;
+  text-align: center;
+}

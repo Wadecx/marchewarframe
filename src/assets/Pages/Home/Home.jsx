@@ -99,6 +99,17 @@ const Home = () => {
     }));
   };
 
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        alert("Texte copié ✅");
+      },
+      (err) => {
+        console.error("Erreur lors de la copie :", err);
+      }
+    );
+  };
+
   return (
     <>
       <div className="home-container">
@@ -161,24 +172,43 @@ const Home = () => {
                   <h2>{itemPreview.name}</h2>
                 </div>
                 <div className="average">
-                  <h3>Statistique</h3>
-                  <p>
-                    Prix moyen: {averagePlatinum.toFixed(2)}
-                    <img
-                      src="/img/pl.webp"
-                      alt="Image de votre choix"
-                      className="votre-classe-image"
-                    />
-                  </p>
-                  <p>
-                    {isSellingChecked ? "Prix minimum" : "Prix maximum"} :{" "}
-                    {priceToDisplay}
-                    <img
-                      src="/img/pl.webp"
-                      alt="Image de votre choix"
-                      className="votre-classe-image"
-                    />
-                  </p>
+                  <h3>Statistiques</h3>
+
+                  <div className="averaged">
+                    <p>Prix moyen:</p>
+
+                    <p>
+                      <span
+                        style={{
+                          color: "orange",
+                          display: "flex",
+                          textAlign: "center",
+                          alignItems: "center",
+                          gap: "5px",
+                        }}
+                      >
+                        {averagePlatinum.toFixed(0)} <TfiServer />
+                      </span>
+                    </p>
+                  </div>
+                  <div className="price">
+                    <p>
+                      {isSellingChecked ? "Prix minimum" : "Prix maximum"} :{" "}
+                    </p>
+                    <p>
+                      <span
+                        style={{
+                          color: "#B74590",
+                          display: "flex",
+                          textAlign: "center",
+                          alignItems: "center",
+                          gap: "5px",
+                        }}
+                      >
+                        {priceToDisplay.toFixed(0)} <TfiServer />
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </>
             )}
@@ -254,7 +284,13 @@ const Home = () => {
 
                   <button
                     className="action-btn"
-                    onClick={() => handleButtonClick(index)}
+                    onClick={() => {
+                      handleButtonClick(index);
+                      const message = isSellingChecked
+                        ? `/w ${order.user.ingame_name} Hi, want to buy ${item} for ${order.platinum} Platinum (Warframe Market)`
+                        : `/w ${order.user.ingame_name} Hi, want to sell ${item} for ${order.platinum} Platinum (Warframe Market)`;
+                      copyToClipboard(message); // Copie le message dans le presse-papiers
+                    }}
                   >
                     {isSellingChecked ? "Acheter" : "Vendre"}
                   </button>
