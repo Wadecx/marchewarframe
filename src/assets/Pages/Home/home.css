@@ -18,8 +18,13 @@ body {
 
 /* Section de recherche et statistiques */
 .search-section {
+  padding: 50px;
+  background-color: #101619;
+  border-radius: 5px;
+  border: 1px solid #2c3539;
   flex: 1;
   margin-right: 20px;
+  height: fit-content;
 }
 
 .form_style {
@@ -227,14 +232,14 @@ body {
   border-radius: 5px;
   outline: none;
 }
-.averaged{
+.averaged {
   display: flex;
   justify-content: space-between;
   margin-right: 10%;
   text-align: center;
 }
 
-.price{
+.price {
   display: flex;
   justify-content: space-between;
   margin-right: 10%;

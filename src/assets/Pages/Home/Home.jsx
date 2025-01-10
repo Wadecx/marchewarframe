@@ -52,20 +52,28 @@ const Home = () => {
       return;
     }
 
-    const url = `api/v1/items/${urlName}/orders?include=item`;
+    // Utiliser le proxy local
+    const url = `/api/v1/items/${urlName}/orders?include=item`;
 
     try {
       const response = await fetch(url);
+
+      // Vérifiez si la réponse est correcte
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `Erreur API: ${response.status} ${response.statusText}`,
+          errorText
+        );
         throw new Error(`Erreur: ${response.statusText}`);
       }
+
       const data = await response.json();
       setOrders(data.payload.orders);
     } catch (err) {
       console.error(err.message);
     }
   };
-
   const filteredOrders = orders.filter((order) => {
     if (order.user.status !== "online" && order.user.status !== "ingame")
       return false;
