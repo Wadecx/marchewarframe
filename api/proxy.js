@@ -1,30 +1,29 @@
 // api/proxy.js
 
-import fetch from 'node-fetch';
-
 export default async function handler(req, res) {
-  const { method, query, body } = req;
-  
-  // L'URL de l'API distante que vous voulez proxyfier
-  const apiUrl = 'https://api.warframe.market';
-  
-  // Créer l'URL de l'API cible en fonction de la requête entrante
-  const targetUrl = `${apiUrl}${req.url.replace('/api', '')}`;
+  // Récupérer le paramètre `urlName` de la requête
+  const { urlName } = req.query;
+
+  if (!urlName) {
+    return res.status(400).json({ error: "urlName is required" }); // Si urlName est absent
+  }
+
+  const apiUrl = `https://api.warframe.market/v1/items/${urlName}/orders?include=item`; // L'URL externe de l'API
 
   try {
-    const response = await fetch(targetUrl, {
-      method: method, // Vous pouvez rediriger n'importe quelle méthode (GET, POST, etc.)
-      headers: {
-        'Content-Type': 'application/json',
-        // Vous pouvez ajouter d'autres headers ici si nécessaire
-      },
-      body: method === 'POST' || method === 'PUT' ? JSON.stringify(body) : null, // Pour les méthodes POST/PUT
-    });
+    // Faire une requête vers l'API externe
+    const response = await fetch(apiUrl);
 
-    const data = await response.json(); // Parse la réponse JSON
-    res.status(response.status).json(data); // Retourne la réponse au client
+    if (!response.ok) {
+      return res.status(response.status).json({ error: response.statusText });
+    }
+
+    const data = await response.json();
+    res.status(200).json(data); // Renvoie les données à votre front-end
   } catch (error) {
-    console.error('Erreur du proxy:', error);
-    res.status(500).json({ error: 'Erreur lors de la connexion à l\'API distante' });
+    console.error("Erreur de requête API:", error);
+    res
+      .status(500)
+      .json({ error: "Erreur interne du serveur", details: error.message });
   }
 }
