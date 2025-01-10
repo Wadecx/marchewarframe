@@ -53,7 +53,7 @@ const Home = () => {
     }
 
     // Utiliser le proxy local
-    const url = `/api/v1/items/${urlName}/orders?include=item`;
+    const url = `/api/proxy?urlName=${urlName}`;
 
     try {
       const response = await fetch(url);
