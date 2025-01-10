@@ -55,7 +55,7 @@ const Home = () => {
     // Utiliser le proxy local
     const url =
       import.meta.env.VITE_APP_ENV === "development"
-      ? `api/v1/items/${urlName}/orders?include=item`
+        ? `api/v1/items/${urlName}/orders?include=item`
         : `/api/proxy?urlName=${urlName}`;
 
     try {
