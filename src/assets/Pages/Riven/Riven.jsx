@@ -222,10 +222,12 @@ const Riven = () => {
                           <li
                             key={i}
                             style={{
-                              color: attr.positive ? "green" : "red",
+                              color: attr.positive ? "#19A187" : "#FF0000",
+                              backgroundColor: attr.positive ? "#162526" : "#201D1F",
+                              border: `0.5px solid ${attr.positive ? "#19A187" : "#FF0000"}`
                             }}
                           >
-                            {attr.url_name.replace("_", " ")}: {attr.value}
+                            {attr.url_name.replace("_", " ")}: {attr.value} %
                           </li>
                         ))}
                       </ul>
